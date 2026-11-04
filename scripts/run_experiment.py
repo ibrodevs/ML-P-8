@@ -40,7 +40,7 @@ def fit_and_report(name,model,X_train,X_test,y_train,y_test):
           f"AUC test={row['roc_auc_test']:.3f} time={elapsed:.2f}s")
     display=ConfusionMatrixDisplay.from_predictions(y_test,preds,cmap="Blues")
     display.ax_.set_title(name)
-    display.figure_.savefig(OUT/("rf" if name=="Random Forest" else "xgboost")+"_confusion.png",dpi=150)
+    display.figure_.savefig(OUT / (("rf" if name=="Random Forest" else "xgboost") + "_confusion.png"), dpi=150)
     plt.close(display.figure_)
     return row
 
