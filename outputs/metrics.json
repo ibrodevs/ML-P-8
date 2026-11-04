@@ -1,0 +1,30 @@
+{
+  "dataset": "o_churn_synthetic.csv",
+  "n_rows": 3000,
+  "train_rows": 2400,
+  "test_rows": 600,
+  "n_features_raw": 11,
+  "class_distribution": {
+    "0": 1886,
+    "1": 1114
+  },
+  "metrics": [
+    {
+      "model": "Random Forest",
+      "f1_train": 1.0,
+      "f1_test": 0.5561224489795918,
+      "roc_auc_test": 0.7521202317089127,
+      "fit_seconds": 0.32657152600000927,
+      "f1_gap": 0.44387755102040816
+    },
+    {
+      "model": "XGBoost",
+      "f1_train": 0.7863354037267081,
+      "f1_test": 0.570694087403599,
+      "roc_auc_test": 0.7745595984346565,
+      "fit_seconds": 0.1337129020000134,
+      "f1_gap": 0.21564131632310912
+    }
+  ],
+  "recommended_by_f1_test": "XGBoost"
+}
