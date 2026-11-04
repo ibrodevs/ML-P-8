@@ -3,10 +3,25 @@
   "n_rows": 3000,
   "train_rows": 2400,
   "test_rows": 600,
+  "random_state": 42,
   "n_features_raw": 11,
   "class_distribution": {
     "0": 1886,
     "1": 1114
+  },
+  "benchmark": {
+    "n_jobs": 1,
+    "warmup_fits": 1,
+    "fit_repeats": 5,
+    "inference_repeats": 5,
+    "inference_rows": 600,
+    "size_definition": "pickle full fitted estimator or pipeline"
+  },
+  "versions": {
+    "scikit-learn": "1.8.0",
+    "xgboost": "3.2.0",
+    "lightgbm": "4.7.0",
+    "catboost": "1.2.10"
   },
   "metrics": [
     {
@@ -14,7 +29,9 @@
       "f1_train": 1.0,
       "f1_test": 0.5561224489795918,
       "roc_auc_test": 0.7521202317089127,
-      "fit_seconds": 0.32657152600000927,
+      "train_seconds_median": 0.18958075899999471,
+      "inference_seconds_median": 0.007333490999997139,
+      "model_size_kb": 8273.57421875,
       "f1_gap": 0.44387755102040816
     },
     {
@@ -22,9 +39,32 @@
       "f1_train": 0.7863354037267081,
       "f1_test": 0.570694087403599,
       "roc_auc_test": 0.7745595984346565,
-      "fit_seconds": 0.1337129020000134,
+      "train_seconds_median": 0.07124358999999458,
+      "inference_seconds_median": 0.0020283740000053285,
+      "model_size_kb": 444.125,
       "f1_gap": 0.21564131632310912
+    },
+    {
+      "model": "LightGBM",
+      "f1_train": 0.7778469197261979,
+      "f1_test": 0.6015424164524421,
+      "roc_auc_test": 0.7813395820199593,
+      "train_seconds_median": 0.047105016000003275,
+      "inference_seconds_median": 0.005102950999997802,
+      "model_size_kb": 415.2880859375,
+      "f1_gap": 0.1763045032737558
+    },
+    {
+      "model": "CatBoost",
+      "f1_train": 0.6810673443456162,
+      "f1_test": 0.5655526992287918,
+      "roc_auc_test": 0.7978494367855741,
+      "train_seconds_median": 0.37025255899999365,
+      "inference_seconds_median": 0.0004687779999983377,
+      "model_size_kb": 115.60546875,
+      "f1_gap": 0.11551464511682441
     }
   ],
-  "recommended_by_f1_test": "XGBoost"
+  "best_boost_auc": "CatBoost",
+  "best_boost_f1": "LightGBM"
 }
