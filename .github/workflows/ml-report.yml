@@ -1,12 +1,13 @@
-name: Evaluate ML-P-8 and publish slides
+name: Four-model ML-P-8 experiment and slides
 on:
   push:
     branches: [main]
     paths:
-      - "o_churn_synthetic.csv"
-      - "scripts/**"
-      - "requirements.txt"
-      - ".github/workflows/ml-report.yml"
+      - 'o_churn_synthetic.csv'
+      - 'scripts/**'
+      - 'ML_P8.ipynb'
+      - 'requirements.txt'
+      - '.github/workflows/ml-report.yml'
   workflow_dispatch:
 permissions:
   contents: write
@@ -17,17 +18,29 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.11'
           cache: pip
-      - run: pip install -r requirements.txt
-      - run: python scripts/run_experiment.py
-      - run: python scripts/make_presentation.py
-      - name: Publish report, charts and PowerPoint
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Compute all four algorithms, 5 median benchmarks
+        run: python scripts/run_experiment.py
+      - name: Generate 12-slide PowerPoint
+        run: python scripts/make_presentation.py
+      - name: Check Notebook Restart and Run All
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add outputs/ presentation/ML_P8_Comparison.pptx
+          python - <<'PY'
+          import nbformat
+          from nbclient import NotebookClient
+          notebook = nbformat.read('ML_P8.ipynb', as_version=4)
+          NotebookClient(notebook, kernel_name='python3', timeout=900, resources={'metadata': {'path': '.'}}).execute()
+          print('Notebook runs without error')
+          PY
+      - name: Publish README, metrics, charts, slides
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md outputs/ presentation/ML_P8_Comparison.pptx
           if ! git diff --cached --quiet; then
-            git commit -m "Add computed ML metrics, charts and 7-slide presentation"
+            git commit -m 'Publish measured four-model results and slides'
             git push
           fi
